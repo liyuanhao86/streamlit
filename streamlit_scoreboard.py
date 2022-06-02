@@ -58,7 +58,6 @@ def DoScoreBoard(file, sheet, ifQF=False):
 
 f = 'C:\\Users\\yhli1\\OneDrive - Mowi ASA\\work_files\\CrossFit\\Scoreboard.xlsx'
 f = 'C:\\Users\\Yuanhao.Li\\OneDrive - Mowi ASA\\work_files\\CrossFit\\Scoreboard.xlsx'
-f = 'https://github.com/liyuanhao86/streamlit/blob/6235846c554de2d739b56f1ae3e44d8cf02adf0a/Scoreboard.xlsx'
 f = 'Scoreboard.xlsx'
 option = st.selectbox('Select leaderboard', ('Male', 'Female'))
 if option == 'Male':
