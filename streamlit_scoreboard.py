@@ -38,6 +38,8 @@ def DoScoreBoard(file, sheet, ifQF=False):
     TB.name = "TieBreaker"
     TB2 = df[ss2].max(axis = 1)
     TB2.name = "TieBreaker2"
+    TB = TB.fillna(0)
+    TB2 = TB2.fillna(0)
     scoreboard = scoreboard.merge(TB, how='left', left_index=True, right_index=True)
     scoreboard = scoreboard.merge(TB2, how='left', left_index=True, right_index=True)
     scoreboard['PointsWithTB'] = scoreboard['TotalPoints'] + scoreboard['TieBreaker']*0.01 + scoreboard['TieBreaker']*0.0001
