@@ -76,6 +76,9 @@ image = Image.open('CFBLogo.jpg')
 
 st.set_page_config(layout="wide")
 st.title("Politimesterskap i Funksjonell Fitness 2022 Leaderboard")
+
+st.image(image,width=100)
+
 option = st.selectbox('Select leaderboard from the dropdown menu', ('Female First Stage', 'Male First Stage', 'Female Semi-Final', 'Male Semi-Final'))
 if option == 'Male First Stage':
     sht = 'ScoreM'
@@ -91,4 +94,3 @@ elif option == 'Female Semi-Final':
     d = DoSemiFinal(f, sht, True)
 st.table(d)
 
-st.image(image,width=40)
