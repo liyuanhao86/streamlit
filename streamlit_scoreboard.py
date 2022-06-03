@@ -65,7 +65,7 @@ def DoSemiFinal(file, sheet, ifQF=False):
     tmp = df.pop('Rank')
     df.insert(0, 'Rank', tmp)
     display = df.applymap('{:,.0f}'.format)
-    display = display.sort_values(by=['Total'])
+    display = display.sort_values(by=['Rank'])
     return display
 
 f = 'C:\\Users\\yhli1\\OneDrive - Mowi ASA\\work_files\\CrossFit\\Scoreboard.xlsx'
