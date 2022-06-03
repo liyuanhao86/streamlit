@@ -56,13 +56,31 @@ def DoScoreBoard(file, sheet, ifQF=False):
     else:
         return display2.drop(columns=['Qualify']), scoreboard2
 
+def DoSemiFinal(file, sheet):
+    df = pd.read_excel(file, index_col=0, sheet_name = sheet) 
+    df['Total'] = df.iloc[:,0] + df.iloc[:,1]
+    df['Rank'] = df['Total'].rank(axis=0, method='min', ascending=False)
+    tmp = df.pop('Total')
+    df.insert(0, 'Total', tmp)
+    tmp = df.pop('Rank')
+    df.insert(0, 'Rank', tmp)
+    display = df.applymap('{:,.0f}'.format)
+    return display
+
 f = 'C:\\Users\\yhli1\\OneDrive - Mowi ASA\\work_files\\CrossFit\\Scoreboard.xlsx'
 f = 'C:\\Users\\Yuanhao.Li\\OneDrive - Mowi ASA\\work_files\\CrossFit\\Scoreboard.xlsx'
 f = 'Scoreboard.xlsx'
-option = st.selectbox('Select leaderboard', ('Male', 'Female'))
-if option == 'Male':
+option = st.selectbox('Select leaderboard', ('Female First Stage', 'Male First Stage', 'Female Semi-Final', 'Male Semi-Final'))
+if option == 'Male First Stage':
     sht = 'ScoreM'
-else:
+    d, s = DoScoreBoard(f, sht, True)
+elif option == 'Female First Stage':
     sht = 'ScoreF'
-d, s = DoScoreBoard(f, sht, True)
+    d, s = DoScoreBoard(f, sht, True)
+if option == 'Male Semi-Final':
+    sht = 'SFM'
+    d = DoSemiFinal(f, sht, True)
+elif option == 'Female Semi-Final':
+    sht = 'SFF'
+    d = DoSemiFinal(f, sht, True)
 st.table(d)
