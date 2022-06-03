@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import re
 import streamlit as st
+from PIL import Image
 def DoScoreBoard(file, sheet, ifQF=False):
     df = pd.read_excel(file, index_col=0, sheet_name = sheet) 
     score_matrix = pd.read_excel(file, index_col=0, sheet_name = 'ScoreMatrix').to_dict()
@@ -71,6 +72,7 @@ def DoSemiFinal(file, sheet, ifQF=False):
 f = 'C:\\Users\\yhli1\\OneDrive - Mowi ASA\\work_files\\CrossFit\\Scoreboard.xlsx'
 f = 'C:\\Users\\Yuanhao.Li\\OneDrive - Mowi ASA\\work_files\\CrossFit\\Scoreboard.xlsx'
 f = 'Scoreboard.xlsx'
+image = Image.open('CFBLogo.jpg')
 
 st.set_page_config(layout="wide")
 st.title("Politimesterskap i Funksjonell Fitness 2022 Leaderboard")
@@ -88,3 +90,5 @@ elif option == 'Female Semi-Final':
     sht = 'SFF'
     d = DoSemiFinal(f, sht, True)
 st.table(d)
+
+st.image(image)
