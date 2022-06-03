@@ -73,7 +73,7 @@ f = 'C:\\Users\\Yuanhao.Li\\OneDrive - Mowi ASA\\work_files\\CrossFit\\Scoreboar
 f = 'Scoreboard.xlsx'
 
 st.set_page_config(layout="wide")
-st.title("Frivillige PM 2022 Leaderboard")
+st.title("Politimesterskap i Funksjonell Fitness 2022 Leaderboard")
 option = st.selectbox('Select leaderboard from the dropdown menu', ('Female First Stage', 'Male First Stage', 'Female Semi-Final', 'Male Semi-Final'))
 if option == 'Male First Stage':
     sht = 'ScoreM'
