@@ -71,7 +71,7 @@ def DoSemiFinal(file, sheet, ifQF=False):
 f = 'C:\\Users\\yhli1\\OneDrive - Mowi ASA\\work_files\\CrossFit\\Scoreboard.xlsx'
 f = 'C:\\Users\\Yuanhao.Li\\OneDrive - Mowi ASA\\work_files\\CrossFit\\Scoreboard.xlsx'
 f = 'Scoreboard.xlsx'
-st.title("Frivillige PM 2022")
+st.title("Frivillige PM 2022 Leaderboard")
 option = st.selectbox('Select leaderboard', ('Female First Stage', 'Male First Stage', 'Female Semi-Final', 'Male Semi-Final'))
 if option == 'Male First Stage':
     sht = 'ScoreM'
