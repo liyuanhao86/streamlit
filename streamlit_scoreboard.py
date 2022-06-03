@@ -56,7 +56,7 @@ def DoScoreBoard(file, sheet, ifQF=False):
     else:
         return display2.drop(columns=['Qualify']), scoreboard2
 
-def DoSemiFinal(file, sheet):
+def DoSemiFinal(file, sheet, ifQF=False):
     df = pd.read_excel(file, index_col=0, sheet_name = sheet) 
     df['Total'] = df.iloc[:,0] + df.iloc[:,1]
     df['Rank'] = df['Total'].rank(axis=0, method='min', ascending=False)
