@@ -91,4 +91,4 @@ elif option == 'Female Semi-Final':
     d = DoSemiFinal(f, sht, True)
 st.table(d)
 
-st.image(image)
+st.image(image,width=40)
