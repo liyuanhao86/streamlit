@@ -46,9 +46,9 @@ def DoScoreBoard(file, sheet, ifQF=False):
     TotalRankTB.name = "TotalRankTB"
     scoreboard = scoreboard.merge(TotalRank, how='left', left_index=True, right_index=True)
     scoreboard = scoreboard.merge(TotalRankTB, how='left', left_index=True, right_index=True)
-    display = scoreboard[['TotalRankTB']+['QualifyPoints']+ss2+['TotalPoints']]
+    display = scoreboard[['TotalRankTB']+['TotalPoints']+['QualifyPoints']+ss2]
     display = display.sort_values(by=['TotalRankTB'])
-    display.columns = ['Rank']+['Qualify']+ss3+['Total']
+    display.columns = ['Rank']+['Total']+['Qualify']+ss3
     scoreboard2 = scoreboard.applymap('{:,.0f}'.format)
     display2 = display.applymap('{:,.0f}'.format)
     if ifQF:
