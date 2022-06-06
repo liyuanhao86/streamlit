@@ -81,7 +81,8 @@ st.title("Politimesterskap i Funksjonell Fitness 2022 Leaderboard")
 
 st.image(image,width=100)
 
-option = st.selectbox('Select leaderboard from the dropdown menu', ('Female First Stage', 'Male First Stage', 'Female Semi-Final', 'Male Semi-Final'))
+#option = st.selectbox('Select leaderboard from the dropdown menu', ('Female First Stage', 'Male First Stage', 'Female Semi-Final', 'Male Semi-Final'))
+option = st.selectbox('Select leaderboard from the dropdown menu', ('Female First Stage', 'Male First Stage'))
 if option == 'Male First Stage':
     sht = 'ScoreM'
     d, s = DoScoreBoard(f, sht, True)
