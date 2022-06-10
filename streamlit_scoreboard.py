@@ -151,7 +151,7 @@ elif option == 'Male Semi-Final':
     dfsf['Workout 6 Points'] = dfsf['Workout 6 Points'].astype(int)
     dfsf['Semi Final Total'] = dfsf['Workout 6 Points']+dfsf['First Stage Points']
     dfsf['SFScore'] = dfsf['Semi Final Total']*1000+dfsf['Total Lift']
-    dfsf['Semi Final Rank'] = dfsf['SFScore'].rank(axis=0, method='min', ascending=False)
+    dfsf['Semi Final Rank'] = dfsf['SFScore'].rank(axis=0, method='min', ascending=False).astype(int)
     tmpsf = dfsf[['Semi Final Rank', 'Semi Final Total', 'Workout 6 Points', 'Snatch', 'Clean and Jerk', 'Total Lift']]
     st.subheader("Leaderboard")
     st.table(tmpsf)
@@ -168,7 +168,7 @@ elif option == 'Female Semi-Final':
     dfsf['Workout 6 Points'] = dfsf['Workout 6 Points'].astype(int)
     dfsf['Semi Final Total'] = dfsf['Workout 6 Points']+dfsf['First Stage Points']
     dfsf['SFScore'] = dfsf['Semi Final Total']*1000+dfsf['Total Lift']
-    dfsf['Semi Final Rank'] = dfsf['SFScore'].rank(axis=0, method='min', ascending=False)
+    dfsf['Semi Final Rank'] = dfsf['SFScore'].rank(axis=0, method='min', ascending=False).astype(int)
     tmpsf = dfsf[['Semi Final Rank', 'Semi Final Total', 'Workout 6 Points', 'Snatch', 'Clean and Jerk', 'Total Lift']]
     st.subheader("Leaderboard")
     st.table(tmpsf)
