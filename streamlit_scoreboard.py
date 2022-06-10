@@ -90,7 +90,7 @@ st.image(image,width=100)
 #option = st.selectbox('Select leaderboard from the dropdown menu', ('Female First Stage', 'Male First Stage', 'Female Semi-Final', 'Male Semi-Final'))
 option = st.selectbox('Select leaderboard from the dropdown menu', ('Female First Stage', 'Male First Stage'))
 if option == 'Male First Stage':
-    sht = 'ScoreM'
+    sheet = 'ScoreM'
     df = pd.read_excel(file, index_col=0, sheet_name = sheet) 
     score_matrix = pd.read_excel(file, index_col=0, sheet_name = 'ScoreMatrix').to_dict()
     score_matrix['points'][0]=0
@@ -109,7 +109,7 @@ if option == 'Male First Stage':
         print(d)
         tmp = d
 elif option == 'Female First Stage':
-    sht = 'ScoreF'
+    sheet = 'ScoreF'
     df = pd.read_excel(file, index_col=0, sheet_name = sheet) 
     score_matrix = pd.read_excel(file, index_col=0, sheet_name = 'ScoreMatrix').to_dict()
     score_matrix['points'][0]=0
