@@ -138,27 +138,39 @@ elif option == 'Female First Stage':
     else:
         st.subheader("Leaderboard")
         st.table(d.drop(columns=['WorstRound','BestRound']))
-if option == 'Male Semi-Final':
+elif option == 'Male Semi-Final':
     sheet = 'SFM'
     dfsf = pd.read_excel(file, index_col=0, sheet_name = sheet)
     score_matrix = pd.read_excel(file, index_col=0, sheet_name = 'ScoreMatrix').to_dict()
     score_matrix['points'][0]=0
     dfsf['Total Lift'] = dfsf['Snatch']+dfsf['Clean and Jerk']
-    dfsf['SFRank'] = dfsf['Total Lift'].rank(axis=0, method='min', ascending=False)
-    dfsf['Workout 6'] = 0
+    dfsf['Rank6'] = dfsf['Total Lift'].rank(axis=0, method='min', ascending=False)
+    dfsf['Workout 6 Points'] = 0
     for j in dfsf.index:
-        dfsf.loc[j, 'Workout 6'] = score_matrix['points'][dfsf.loc[j, 'SFRank']]
-    dfsf['Workout 6'] = dfsf['Workout 6'].astype(int)
-    dfsf['Semi Final Total'] = dfsf['Workout 6']+dfsf['First Stage Points']
+        dfsf.loc[j, 'Workout 6 Points'] = score_matrix['points'][dfsf.loc[j, 'Rank6']]
+    dfsf['Workout 6 Points'] = dfsf['Workout 6 Points'].astype(int)
+    dfsf['Semi Final Total'] = dfsf['Workout 6 Points']+dfsf['First Stage Points']
     dfsf['SFScore'] = dfsf['Semi Final Total']*1000+dfsf['Total Lift']
+    dfsf['Semi Final Rank'] = dfsf['SFScore'].rank(axis=0, method='min', ascending=False)
+    tmpsf = dfsf[['Semi Final Rank', 'Semi Final Total', 'Workout 6 Points', 'Snatch', 'Clean and Jerk', 'Total Lift']]
     st.subheader("Leaderboard")
-    st.table(dfsf)
+    st.table(tmp)
 elif option == 'Female Semi-Final':
     sheet = 'SFF'
     dfsf = pd.read_excel(file, index_col=0, sheet_name = sheet)
     score_matrix = pd.read_excel(file, index_col=0, sheet_name = 'ScoreMatrix').to_dict()
     score_matrix['points'][0]=0
+    dfsf['Total Lift'] = dfsf['Snatch']+dfsf['Clean and Jerk']
+    dfsf['Rank6'] = dfsf['Total Lift'].rank(axis=0, method='min', ascending=False)
+    dfsf['Workout 6 Points'] = 0
+    for j in dfsf.index:
+        dfsf.loc[j, 'Workout 6 Points'] = score_matrix['points'][dfsf.loc[j, 'Rank6']]
+    dfsf['Workout 6 Points'] = dfsf['Workout 6 Points'].astype(int)
+    dfsf['Semi Final Total'] = dfsf['Workout 6 Points']+dfsf['First Stage Points']
+    dfsf['SFScore'] = dfsf['Semi Final Total']*1000+dfsf['Total Lift']
+    dfsf['Semi Final Rank'] = dfsf['SFScore'].rank(axis=0, method='min', ascending=False)
+    tmpsf = dfsf[['Semi Final Rank', 'Semi Final Total', 'Workout 6 Points', 'Snatch', 'Clean and Jerk', 'Total Lift']]
     st.subheader("Leaderboard")
-    st.table(dfsf)
+    st.table(tmp)
 
 
