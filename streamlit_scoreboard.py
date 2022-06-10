@@ -143,6 +143,11 @@ if option == 'Male Semi-Final':
     dfsf = pd.read_excel(file, index_col=0, sheet_name = sheet)
     score_matrix = pd.read_excel(file, index_col=0, sheet_name = 'ScoreMatrix').to_dict()
     score_matrix['points'][0]=0
+    dfsf['Total Lift'] = dfsf['Snatch']+dfsf['Clean and Jerk']
+    dfsf['SFRank'] = dfsf.rank(axis=0, method='min', ascending=False)
+    dfsf['SFPoints'] = 0
+    for j in dfsf.index:
+        dfsf.loc[j, 'SFPoints'] = score_matrix['points'][dfsf.loc[j, 'SFPoints']]
     st.subheader("Leaderboard")
     st.table(dfsf)
 elif option == 'Female Semi-Final':
