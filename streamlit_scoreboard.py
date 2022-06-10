@@ -180,7 +180,7 @@ elif option == 'Male Final':
     dff['FScore'] = dff['Rep']*10000-dff['Minute']*60-dff['Second']
     dff['Rank7'] = dff['FScore'].rank(axis=0, method='min', ascending=False).astype(int)
     dff['Workout 7 Points'] = 0
-    for j in dfsf.index:
+    for j in dff.index:
         dff.loc[j, 'Workout 7 Points'] = score_matrix['points'][dff.loc[j, 'Rank7']]
     dff['Workout 7 Points'] = dff['Workout 7 Points'].astype(int)
     dff['Final Total Points'] = dff['First Stage Points'] + dff['Workout 6 Points'] + dff['Workout 7 Points']
