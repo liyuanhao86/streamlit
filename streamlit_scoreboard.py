@@ -1,13 +1,4 @@
-import pandas as pd
-import numpy as np
-import re
-import streamlit as st
-from PIL import Image
-def DoScoreBoard(file, sheet, ifQF=False):
-    df = pd.read_excel(file, index_col=0, sheet_name = sheet) 
-    score_matrix = pd.read_excel(file, index_col=0, sheet_name = 'ScoreMatrix').to_dict()
-    score_matrix['points'][0]=0
-    df = df.fillna(0)
+def DoScoreBoard(df, score_matrix, ifQF=False):
     NWorkout = int(re.search(r"(?<=[A-z])[0-9]+$", df.columns[-1]).group(0))
     if ifQF == False:
         df['QualifyPoints'] = 0
@@ -35,44 +26,51 @@ def DoScoreBoard(file, sheet, ifQF=False):
             ss3.append('Workout '+str(i))
     scoreboard = df[ss]
     TB = df[ss2].min(axis = 1)
-    TB.name = "TieBreaker"
+    TB.name = "WorstRound"
     TB2 = df[ss2].max(axis = 1)
-    TB2.name = "TieBreaker2"
-    TB = TB.fillna(0)
-    TB2 = TB2.fillna(0)
+    TB2.name = "BestRound"
     scoreboard = scoreboard.merge(TB, how='left', left_index=True, right_index=True)
     scoreboard = scoreboard.merge(TB2, how='left', left_index=True, right_index=True)
-    scoreboard['PointsWithTB'] = scoreboard['TotalPoints'] + scoreboard['TieBreaker']*0.01 + scoreboard['TieBreaker']*0.0001
+    scoreboard['PointsWithTB'] = scoreboard['TotalPoints'] 
     TotalRank = scoreboard['TotalPoints'].rank(axis=0, method='min', ascending=False)
     TotalRank.name = "TotalRank"
     TotalRankTB = scoreboard['PointsWithTB'].rank(axis=0, method='min', ascending=False)
     TotalRankTB.name = "TotalRankTB"
     scoreboard = scoreboard.merge(TotalRank, how='left', left_index=True, right_index=True)
     scoreboard = scoreboard.merge(TotalRankTB, how='left', left_index=True, right_index=True)
-    display = scoreboard[['TotalRankTB']+['TotalPoints']+['QualifyPoints']+ss2]
+    display = scoreboard[['TotalRankTB']+['QualifyPoints']+ss2+['TotalPoints']+['WorstRound']+['BestRound']]
     display = display.sort_values(by=['TotalRankTB'])
-    display.columns = ['Rank']+['Total']+['Qualify']+ss3
-    scoreboard2 = scoreboard.applymap('{:,.0f}'.format)
-    display2 = display.applymap('{:,.0f}'.format)
+    display.columns = ['Rank']+['Qualify']+ss3+['Total']+['WorstRound']+['BestRound']
+    display['Rank'] = display['Rank'].astype(int)
+    scoreboard['Rank'] = display['Rank'].astype(int)
     if ifQF:
-        return display2, scoreboard2
+        return display, scoreboard, len(ss2)
     else:
-        return display2.drop(columns=['Qualify']), scoreboard2
+        return display.drop(columns=['Qualify']), scoreboard, len(ss2)
+def ifNeedTieBreaker(data, NQualify):
+    return NQualify<len(data[data['Rank']<=NQualify])
+def DoTieBreaker(data, NQualify):
+    d2 = data[data['Rank']<=NQualify]
+    d2 = d2.sort_values(by=['Rank'])
+    subdf = df[df.index.isin([x for x in d2[d2['Rank']==d2['Rank'][-1]].index])]
+    subd, subs, tmp = DoScoreBoard(subdf, score_matrix, True)
+    subd2 = subd['Rank']
+    subd2.name ='TBRank'
+    d_withtb = d.merge(subd2, how='left',left_index=True, right_index=True).fillna(0)
+    d_withtb['RankWithTB'] = d_withtb['Rank'] + 0.01*d_withtb['TBRank']-0.0001*d_withtb['WorstRound']-0.000001*d_withtb['BestRound']
+    d_withtb['RankWithTB'][d_withtb['TBRank']==0] = 0
+    t = d_withtb.sort_values(by=['Rank','RankWithTB'])
+    t = t.drop(columns='RankWithTB')
+    t['TBRank'] = t['TBRank'].astype(int)
+    return t, subd
+def GetQualified(data, NQualify):
+    return data.iloc[0:NQualify,:].index
+def normal_round(n, decimals=0):
+    expoN = n * 10 ** decimals
+    if abs(expoN) - abs(math.floor(expoN)) < 0.5:
+        return math.floor(expoN) / 10 ** decimals
+    return math.ceil(expoN) / 10 ** decimals    
 
-def DoSemiFinal(file, sheet, ifQF=False):
-    df = pd.read_excel(file, index_col=0, sheet_name = sheet) 
-    df['Total'] = df.iloc[:,0] + df.iloc[:,1]
-    df['Rank'] = df['Total'].rank(axis=0, method='min', ascending=False)
-    tmp = df.pop('Total')
-    df.insert(0, 'Total', tmp)
-    tmp = df.pop('Rank')
-    df.insert(0, 'Rank', tmp)
-    display = df.applymap('{:,.0f}'.format)
-    display = display.sort_values(by=['Rank'])
-    return display
-
-f = 'C:\\Users\\yhli1\\OneDrive - Mowi ASA\\work_files\\CrossFit\\Scoreboard.xlsx'
-f = 'C:\\Users\\Yuanhao.Li\\OneDrive - Mowi ASA\\work_files\\CrossFit\\Scoreboard.xlsx'
 f = 'Scoreboard.xlsx'
 image = Image.open('CFBLogo.jpg')
 
@@ -85,15 +83,47 @@ st.image(image,width=100)
 option = st.selectbox('Select leaderboard from the dropdown menu', ('Female First Stage', 'Male First Stage'))
 if option == 'Male First Stage':
     sht = 'ScoreM'
-    d, s = DoScoreBoard(f, sht, True)
+    df = pd.read_excel(file, index_col=0, sheet_name = sheet) 
+    score_matrix = pd.read_excel(file, index_col=0, sheet_name = 'ScoreMatrix').to_dict()
+    score_matrix['points'][0]=0
+    df = df.fillna(0)
+    d, s, N = DoScoreBoard(df, score_matrix, True)
+    if N==5:
+        if ifNeedTieBreaker(d, 6):
+            display_tb, sub_leaderboard = DoTieBreaker(d, 6)
+            print(display_tb)
+            print(sub_leaderboard)
+            tmp = display_tb
+        else:
+            print(d)
+            tmp = d
+    else:
+        print(d)
+        tmp = d
 elif option == 'Female First Stage':
     sht = 'ScoreF'
-    d, s = DoScoreBoard(f, sht, True)
+    df = pd.read_excel(file, index_col=0, sheet_name = sheet) 
+    score_matrix = pd.read_excel(file, index_col=0, sheet_name = 'ScoreMatrix').to_dict()
+    score_matrix['points'][0]=0
+    df = df.fillna(0)
+    d, s, N = DoScoreBoard(df, score_matrix, True)
+    if N==5:
+        if ifNeedTieBreaker(d, 6):
+            display_tb, sub_leaderboard = DoTieBreaker(d, 6)
+            print(display_tb)
+            print(sub_leaderboard)
+            tmp = display_tb
+        else:
+            print(d)
+            tmp = d
+    else:
+        print(d)
+        tmp = d
 if option == 'Male Semi-Final':
     sht = 'SFM'
     d = DoSemiFinal(f, sht, True)
 elif option == 'Female Semi-Final':
     sht = 'SFF'
     d = DoSemiFinal(f, sht, True)
-st.table(d)
+st.table(tmp)
 
