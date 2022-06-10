@@ -154,7 +154,7 @@ elif option == 'Male Semi-Final':
     dfsf['Semi Final Rank'] = dfsf['SFScore'].rank(axis=0, method='min', ascending=False)
     tmpsf = dfsf[['Semi Final Rank', 'Semi Final Total', 'Workout 6 Points', 'Snatch', 'Clean and Jerk', 'Total Lift']]
     st.subheader("Leaderboard")
-    st.table(tmp)
+    st.table(tmpsf)
 elif option == 'Female Semi-Final':
     sheet = 'SFF'
     dfsf = pd.read_excel(file, index_col=0, sheet_name = sheet)
@@ -171,6 +171,6 @@ elif option == 'Female Semi-Final':
     dfsf['Semi Final Rank'] = dfsf['SFScore'].rank(axis=0, method='min', ascending=False)
     tmpsf = dfsf[['Semi Final Rank', 'Semi Final Total', 'Workout 6 Points', 'Snatch', 'Clean and Jerk', 'Total Lift']]
     st.subheader("Leaderboard")
-    st.table(tmp)
+    st.table(tmpsf)
 
 
