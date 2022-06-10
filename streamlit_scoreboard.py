@@ -99,7 +99,8 @@ if option == 'Male First Stage':
     if N==5:
         if ifNeedTieBreaker(d, 6):
             display_tb, sub_leaderboard = DoTieBreaker(d, 6)
-            tmp = display_tb
+            st.table(display_tb.drop(columns=['WorstRound','BestRound']))
+            st.table(sub_leaderboard)
         else:
             st.table(d.drop(columns=['WorstRound','BestRound']))
     else:
@@ -114,7 +115,8 @@ elif option == 'Female First Stage':
     if N==5:
         if ifNeedTieBreaker(d, 6):
             display_tb, sub_leaderboard = DoTieBreaker(d, 6)
-            tmp = display_tb
+            st.table(display_tb.drop(columns=['WorstRound','BestRound']))
+            st.table(sub_leaderboard)
         else:
             st.table(d.drop(columns=['WorstRound','BestRound']))
     else:
