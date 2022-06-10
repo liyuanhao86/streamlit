@@ -99,15 +99,11 @@ if option == 'Male First Stage':
     if N==5:
         if ifNeedTieBreaker(d, 6):
             display_tb, sub_leaderboard = DoTieBreaker(d, 6)
-            print(display_tb)
-            print(sub_leaderboard)
             tmp = display_tb
         else:
-            print(d)
             tmp = d
     else:
-        print(d)
-        tmp = d
+        st.table(d.drop(columns=['WorstRound','BestRound']))
 elif option == 'Female First Stage':
     sheet = 'ScoreF'
     df = pd.read_excel(file, index_col=0, sheet_name = sheet) 
@@ -118,20 +114,16 @@ elif option == 'Female First Stage':
     if N==5:
         if ifNeedTieBreaker(d, 6):
             display_tb, sub_leaderboard = DoTieBreaker(d, 6)
-            print(display_tb)
-            print(sub_leaderboard)
             tmp = display_tb
         else:
-            print(d)
             tmp = d
     else:
-        print(d)
-        tmp = d
+        st.table(d.drop(columns=['WorstRound','BestRound']))
 if option == 'Male Semi-Final':
     sht = 'SFM'
     d = DoSemiFinal(f, sht, True)
 elif option == 'Female Semi-Final':
     sht = 'SFF'
     d = DoSemiFinal(f, sht, True)
-st.table(tmp)
+
 
