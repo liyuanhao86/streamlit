@@ -99,11 +99,15 @@ if option == 'Male First Stage':
     if N==5:
         if ifNeedTieBreaker(d, 6):
             display_tb, sub_leaderboard = DoTieBreaker(d, 6)
+            st.header("Leaderboard")
             st.table(display_tb.drop(columns=['WorstRound','BestRound']))
-            st.table(sub_leaderboard)
+            st.header("Tie-breaker leaderboard")
+            st.table(sub_leaderboard.drop(columns=['WorstRound','BestRound']))
         else:
+            st.header("Leaderboard")
             st.table(d.drop(columns=['WorstRound','BestRound']))
     else:
+        st.header("Leaderboard")
         st.table(d.drop(columns=['WorstRound','BestRound']))
 elif option == 'Female First Stage':
     sheet = 'ScoreF'
@@ -115,11 +119,15 @@ elif option == 'Female First Stage':
     if N==5:
         if ifNeedTieBreaker(d, 6):
             display_tb, sub_leaderboard = DoTieBreaker(d, 6)
+            st.header("Leaderboard")
             st.table(display_tb.drop(columns=['WorstRound','BestRound']))
-            st.table(sub_leaderboard)
+            st.header("Tie-breaker leaderboard")
+            st.table(sub_leaderboard.drop(columns=['WorstRound','BestRound']))
         else:
+            st.header("Leaderboard")
             st.table(d.drop(columns=['WorstRound','BestRound']))
     else:
+        st.header("Leaderboard")
         st.table(d.drop(columns=['WorstRound','BestRound']))
 if option == 'Male Semi-Final':
     sht = 'SFM'
