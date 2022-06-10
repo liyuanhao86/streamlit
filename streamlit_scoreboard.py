@@ -193,5 +193,14 @@ elif option == 'Female Final':
     dff = pd.read_excel(file, index_col=0, sheet_name = sheet)
     score_matrix = pd.read_excel(file, index_col=0, sheet_name = 'ScoreMatrix').to_dict()
     score_matrix['points'][0]=0
+    dff['FScore'] = dff['Rep']*10000-dff['Minute']*60-dff['Second']
+    dff['Rank7'] = dff['FScore'].rank(axis=0, method='min', ascending=False).astype(int)
+    dff['Workout 7 Points'] = 0
+    for j in dff.index:
+        dff.loc[j, 'Workout 7 Points'] = score_matrix['points'][dff.loc[j, 'Rank7']]
+    dff['Workout 7 Points'] = dff['Workout 7 Points'].astype(int)
+    dff['Final Total Points'] = dff['First Stage Points'] + dff['Workout 6 Points'] + dff['Workout 7 Points']
+    dff['Final Rank'] = dff['Final Total Points'].rank(axis=0, method='min', ascending=False).astype(int)
+    tmpf = dff[['Final Rank', 'Final Total Points', 'Workout 7 Points', 'Workout 6 Points', 'First Stage Points', 'Minute', 'Second', 'Rep']]
     st.subheader("Leaderboard")
-    st.table(dff)
+    st.table(tmpf)
