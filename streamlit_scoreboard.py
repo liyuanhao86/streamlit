@@ -145,9 +145,12 @@ if option == 'Male Semi-Final':
     score_matrix['points'][0]=0
     dfsf['Total Lift'] = dfsf['Snatch']+dfsf['Clean and Jerk']
     dfsf['SFRank'] = dfsf['Total Lift'].rank(axis=0, method='min', ascending=False)
-    dfsf['SFPoints'] = 0
+    dfsf['Workout 6'] = 0
     for j in dfsf.index:
-        dfsf.loc[j, 'SFPoints'] = score_matrix['points'][dfsf.loc[j, 'SFPoints']]
+        dfsf.loc[j, 'Workout 6'] = score_matrix['points'][dfsf.loc[j, 'SFRank']]
+    dfsf['Workout 6'] = dfsf['Workout 6'].astype(int)
+    dfsf['Semi Final Total'] = dfsf['Workout 6']+dfsf['First Stage Points']
+    dfsf['SFScore'] = dfsf['Semi Final Total']*1000+dfsf['Total Lift']
     st.subheader("Leaderboard")
     st.table(dfsf)
 elif option == 'Female Semi-Final':
