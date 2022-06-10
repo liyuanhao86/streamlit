@@ -87,8 +87,17 @@ st.title("Politimesterskap i Funksjonell Fitness 2022 Leaderboard")
 
 st.image(image,width=100)
 
-#option = st.selectbox('Select leaderboard from the dropdown menu', ('Female First Stage', 'Male First Stage', 'Female Semi-Final', 'Male Semi-Final'))
-option = st.selectbox('Select leaderboard from the dropdown menu', ('Female First Stage', 'Male First Stage'))
+ifSemiFinal = False
+isFinal = False
+if isSemiFinal and isFinal:
+    option = st.selectbox(
+        'Select leaderboard from the dropdown menu', ('Female First Stage', 'Male First Stage', 'Female Semi-Final', 'Male Semi-Final', 'Female Final', 'Male Final')
+    )
+elif isSemiFinal:
+    option = st.selectbox('Select leaderboard from the dropdown menu', ('Female First Stage', 'Male First Stage', 'Female Semi-Final', 'Male Semi-Final'))
+else:
+    option = st.selectbox('Select leaderboard from the dropdown menu', ('Female First Stage', 'Male First Stage'))
+
 if option == 'Male First Stage':
     sheet = 'ScoreM'
     df = pd.read_excel(file, index_col=0, sheet_name = sheet) 
