@@ -79,7 +79,7 @@ def normal_round(n, decimals=0):
         return math.floor(expoN) / 10 ** decimals
     return math.ceil(expoN) / 10 ** decimals    
 
-f = 'Scoreboard.xlsx'
+file = 'Scoreboard.xlsx'
 image = Image.open('CFBLogo.jpg')
 
 st.set_page_config(layout="wide")
