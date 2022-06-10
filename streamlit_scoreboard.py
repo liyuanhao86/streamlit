@@ -87,7 +87,7 @@ st.title("Politimesterskap i Funksjonell Fitness 2022 Leaderboard")
 
 st.image(image,width=100)
 
-ifSemiFinal = False
+ifSemiFinal = True
 ifFinal = False
 if ifSemiFinal and ifFinal:
     option = st.selectbox(
@@ -139,10 +139,18 @@ elif option == 'Female First Stage':
         st.subheader("Leaderboard")
         st.table(d.drop(columns=['WorstRound','BestRound']))
 if option == 'Male Semi-Final':
-    sht = 'SFM'
-    d = DoSemiFinal(f, sht, True)
+    sheet = 'SFM'
+    dfsf = pd.read_excel(file, index_col=0, sheet_name = sheet)
+    score_matrix = pd.read_excel(file, index_col=0, sheet_name = 'ScoreMatrix').to_dict()
+    score_matrix['points'][0]=0
+    st.subheader("Leaderboard")
+    st.table(dfsf)
 elif option == 'Female Semi-Final':
-    sht = 'SFF'
-    d = DoSemiFinal(f, sht, True)
+    sheet = 'SFF'
+    dfsf = pd.read_excel(file, index_col=0, sheet_name = sheet)
+    score_matrix = pd.read_excel(file, index_col=0, sheet_name = 'ScoreMatrix').to_dict()
+    score_matrix['points'][0]=0
+    st.subheader("Leaderboard")
+    st.table(dfsf)
 
 
