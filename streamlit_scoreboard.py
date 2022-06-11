@@ -153,6 +153,7 @@ elif option == 'Male Semi-Final':
     dfsf['SFScore'] = dfsf['Semi Final Total']*1000+dfsf['Total Lift']
     dfsf['Semi Final Rank'] = dfsf['SFScore'].rank(axis=0, method='min', ascending=False).astype(int)
     tmpsf = dfsf[['Semi Final Rank', 'Semi Final Total', 'Workout 6 Points', 'First Stage Points', 'Snatch', 'Clean and Jerk', 'Total Lift']]
+    tmpsf['Semi Final Rank'][tmpsf.index=='Ole Andre Elvebakk og Georg Kongsvik'] = 4
     tmpsf = tmpsf.sort_values(by=['Semi Final Rank'])
     st.subheader("Leaderboard")
     st.table(tmpsf)
