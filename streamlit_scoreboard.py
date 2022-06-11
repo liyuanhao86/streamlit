@@ -87,7 +87,7 @@ st.title("Politimesterskap i Funksjonell Fitness 2022 Leaderboard")
 
 st.image(image,width=100)
 
-ifSemiFinal = False
+ifSemiFinal = True
 ifFinal = False
 if ifSemiFinal and ifFinal:
     option = st.selectbox(
