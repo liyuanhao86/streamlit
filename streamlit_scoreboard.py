@@ -88,7 +88,7 @@ st.title("Politimesterskap i Funksjonell Fitness 2022 Leaderboard")
 st.image(image,width=100)
 
 ifSemiFinal = True
-ifFinal = False
+ifFinal = True
 if ifSemiFinal and ifFinal:
     option = st.selectbox(
         'Select leaderboard from the dropdown menu', ('Female First Stage', 'Male First Stage', 'Female Semi-Final', 'Male Semi-Final', 'Female Final', 'Male Final')
