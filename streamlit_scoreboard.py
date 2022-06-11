@@ -188,6 +188,7 @@ elif option == 'Male Final':
     dff['Final Total Points'] = dff['First Stage Points'] + dff['Workout 6 Points'] + dff['Workout 7 Points']
     dff['Final Rank'] = dff['Final Total Points'].rank(axis=0, method='min', ascending=False).astype(int)
     tmpf = dff[['Final Rank', 'Final Total Points', 'Workout 7 Points', 'Workout 6 Points', 'First Stage Points', 'Minute', 'Second', 'Rep']]
+    tmpf['Final Rank'][tmpf.index=='Anders J. Svalestuen og Gabriel Kristiansen'] = 3
     tmpf=tmpf.sort_values(by=['Final Rank'])
     st.subheader("Leaderboard")
     st.table(tmpf)
