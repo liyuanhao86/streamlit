@@ -87,8 +87,8 @@ st.title("Politimesterskap i Funksjonell Fitness 2022 Leaderboard")
 
 st.image(image,width=100)
 
-ifSemiFinal = True
-ifFinal = True
+ifSemiFinal = False
+ifFinal = False
 if ifSemiFinal and ifFinal:
     option = st.selectbox(
         'Select leaderboard from the dropdown menu', ('Female First Stage', 'Male First Stage', 'Female Semi-Final', 'Male Semi-Final', 'Female Final', 'Male Final')
@@ -111,13 +111,10 @@ if option == 'Male First Stage':
             st.subheader("Leaderboard")
             st.table(display_tb.drop(columns=['WorstRound','BestRound']))
             st.subheader("Tie-breaker leaderboard")
-            st.table(sub_leaderboard.drop(columns=['WorstRound','BestRound']))
         else:
             st.subheader("Leaderboard")
-            st.table(d.drop(columns=['WorstRound','BestRound']))
     else:
         st.subheader("Leaderboard")
-        st.table(d.drop(columns=['WorstRound','BestRound']))
 elif option == 'Female First Stage':
     sheet = 'ScoreF'
     df = pd.read_excel(file, index_col=0, sheet_name = sheet) 
@@ -129,15 +126,10 @@ elif option == 'Female First Stage':
         if ifNeedTieBreaker(d, 6):
             display_tb, sub_leaderboard = DoTieBreaker(d, 6)
             st.subheader("Leaderboard")
-            st.table(display_tb.drop(columns=['WorstRound','BestRound']))
-            st.subheader("Tie-breaker leaderboard")
-            st.table(sub_leaderboard.drop(columns=['WorstRound','BestRound']))
         else:
             st.subheader("Leaderboard")
-            st.table(d.drop(columns=['WorstRound','BestRound']))
     else:
         st.subheader("Leaderboard")
-        st.table(d.drop(columns=['WorstRound','BestRound']))
 elif option == 'Male Semi-Final':
     sheet = 'SFM'
     dfsf = pd.read_excel(file, index_col=0, sheet_name = sheet)
