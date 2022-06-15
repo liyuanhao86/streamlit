@@ -113,10 +113,10 @@ if option == 'Male First Stage':
             st.subheader("Tie-breaker leaderboard")
         else:
             st.subheader("Leaderboard")
-            st.table(display_tb.drop(columns=['WorstRound','BestRound']))
+            st.table(d.drop(columns=['WorstRound','BestRound']))
     else:
         st.subheader("Leaderboard")
-        st.table(display_tb.drop(columns=['WorstRound','BestRound']))
+        st.table(d.drop(columns=['WorstRound','BestRound']))
 elif option == 'Female First Stage':
     sheet = 'ScoreF'
     df = pd.read_excel(file, index_col=0, sheet_name = sheet) 
@@ -131,10 +131,10 @@ elif option == 'Female First Stage':
             st.table(display_tb.drop(columns=['WorstRound','BestRound']))
         else:
             st.subheader("Leaderboard")
-            st.table(display_tb.drop(columns=['WorstRound','BestRound']))
+            st.table(d.drop(columns=['WorstRound','BestRound']))
     else:
         st.subheader("Leaderboard")
-        st.table(display_tb.drop(columns=['WorstRound','BestRound']))
+        st.table(d.drop(columns=['WorstRound','BestRound']))
 elif option == 'Male Semi-Final':
     sheet = 'SFM'
     dfsf = pd.read_excel(file, index_col=0, sheet_name = sheet)
