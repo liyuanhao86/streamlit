@@ -182,13 +182,13 @@ def get_wod_display(wod, mm, ss, rep, tp, total_rd = 1):
 	display = re.sub('\,\s$', '', display)
 	return display
 
-bg_pic = 'C:\\Users\\Yuanhao.Li\\OneDrive - Mowi ASA\\work_files\\CrossFit\\2022 Halloween games\\halloweenwp.png'
+bg_pic = 'halloweenwp.png'
 
 add_bg_from_local(bg_pic)    
-image = Image.open('C:\\Users\\Yuanhao.Li\\OneDrive - Mowi ASA\\work_files\\CrossFit\\2022 Halloween games\\CFBLogo.jpg')
-image2 = Image.open('C:\\Users\\Yuanhao.Li\\OneDrive - Mowi ASA\\work_files\\CrossFit\\2022 Halloween games\\halloween.png')
+image = Image.open('CFBLogo.jpg')
+image2 = Image.open('halloween.png')
 
-file = 'C:\\Users\\Yuanhao.Li\\OneDrive - Mowi ASA\\work_files\\CrossFit\\2022 Halloween games\\scoreboard.xlsx'
+file = 'scoreboard.xlsx'
 
 headers = {
     "selector": "th:not(.index_name)",
