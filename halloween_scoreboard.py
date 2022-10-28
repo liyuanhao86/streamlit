@@ -242,7 +242,7 @@ elif option == 'Female First Stage':
 if option == 'Male Semi-Final':
 	sheet = 'SFM'
 	try:
-		d, s, w = DoScoreBoard(file, sheet, False)
+		d, s, w = DoScoreBoard(file, sheet, True)
 		st.subheader("Leaderboard")
 		st.table(d.drop(columns=['WorstRound','BestRound']).style.set_table_styles([headers]).set_properties(**text))
 	except:
@@ -251,7 +251,7 @@ if option == 'Male Semi-Final':
 elif option == 'Female Semi-Final':
 	try:
 		sheet = 'SFF'
-		d, s, w = DoScoreBoard(file, sheet, False)
+		d, s, w = DoScoreBoard(file, sheet, True)
 		st.subheader("Leaderboard")
 		st.table(d.drop(columns=['WorstRound','BestRound']).style.set_table_styles([headers]).set_properties(**text))
 	except:
