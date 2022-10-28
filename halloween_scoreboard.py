@@ -163,11 +163,6 @@ def get_wod_display(wod, mm, ss, rep, tp, total_rd = 1):
     display = re.sub('\,\s$', '', display)
     return display
 
-
-
-f = 'C:\\Users\\yhli1\\OneDrive - Mowi ASA\\work_files\\CrossFit\\Scoreboard.xlsx'
-f = 'C:\\Users\\Yuanhao.Li\\OneDrive - Mowi ASA\\work_files\\CrossFit\\Scoreboard.xlsx'
-f = 'Scoreboard.xlsx'
 file = 'Scoreboard.xlsx'
 image = Image.open('CFBLogo.jpg')
 image2 = Image.open('halloween.png')
@@ -176,4 +171,4 @@ st.set_page_config(layout="wide")
 st.title("CrossFit Bryggen Halloween Games 2022")
 
 st.image(image,width=100)
-st.image(image,width=100)
+st.image(image2,width=100)
