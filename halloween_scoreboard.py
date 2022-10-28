@@ -54,9 +54,11 @@ def DoScoreBoard(file, sheet, ifQF=False):
 	score_matrix = pd.read_excel(file, index_col=0, sheet_name = 'ScoreMatrix').to_dict()
 	score_matrix['points'][0]=0
 	df = df.fillna(0)
+				
+	NWorkout = int(re.search(r"(?<=[A-z])[0-9]+$", df.columns[-1]).group(0))
 	
 	if sheet in ['ScoreM', 'ScoreF']:
-		for w in range(1,4):
+		for w in range(1,NWorkout+1):
 			df[f'WODdisplay{w}'] = ''
 			for team in df.index:
 				m = df[f'Minute{w}'][team]
@@ -71,8 +73,7 @@ def DoScoreBoard(file, sheet, ifQF=False):
 				s = df[f'Second{w}'][team]
 				r = df[f'Rep{w}'][team]
 				df.loc[team,f'WODdisplay{w}']=get_wod_display(wod[w+2], m, s, r, wod_type[w], total_rd=wod_rd[w])
-				
-	NWorkout = int(re.search(r"(?<=[A-z])[0-9]+$", df.columns[-1]).group(0))
+
 	if ifQF == False:
 		df['QualifyPoints'] = 0
 	df['TotalPoints'] = df['QualifyPoints']
@@ -181,37 +182,133 @@ def get_wod_display(wod, mm, ss, rep, tp, total_rd = 1):
 	display = re.sub('\,\s$', '', display)
 	return display
 
-bg_pic = 'halloweenwp.png'
+bg_pic = 'C:\\Users\\Yuanhao.Li\\OneDrive - Mowi ASA\\work_files\\CrossFit\\2022 Halloween games\\halloweenwp.png'
 
 add_bg_from_local(bg_pic)    
-image = Image.open('CFBLogo.jpg')
-image2 = Image.open('halloween.png')
+image = Image.open('C:\\Users\\Yuanhao.Li\\OneDrive - Mowi ASA\\work_files\\CrossFit\\2022 Halloween games\\CFBLogo.jpg')
+image2 = Image.open('C:\\Users\\Yuanhao.Li\\OneDrive - Mowi ASA\\work_files\\CrossFit\\2022 Halloween games\\halloween.png')
 
-file = 'Scoreboard.xlsx'
+file = 'C:\\Users\\Yuanhao.Li\\OneDrive - Mowi ASA\\work_files\\CrossFit\\2022 Halloween games\\scoreboard.xlsx'
+
+headers = {
+    "selector": "th:not(.index_name)",
+    "props": "background-color:#F9B233 ; color:#000080; font-weight:bold"
+}
+text = {
+    'color': '#000080',
+    'background-color':'#F9B233'
+}
 
 #st.set_page_config(layout="wide")
 st.title("CrossFit Bryggen Halloween Games 2022")
 
 st.image(image,width=100)
 
-ifSemiFinal = False
+ifSemiFinal = True
 ifFinal = False
 if ifSemiFinal and ifFinal:
 	option = st.selectbox(
-		'Select leaderboard from the dropdown menu', ('Female First Stage', 'Male First Stage', 'Female Semi-Final', 'Male Semi-Final', 'Female Final', 'Male Final')
+		'Select leaderboard from the dropdown menu', ('Female First Stage', 'Male First Stage', 'Female Semi-Final', 'Male Semi-Final', 'Female Final', 'Male Final', 'Workout 1', 'Workout 2', 'Workout 3', 'Semifinal A', 'Semifinal B')
 	)
 elif ifSemiFinal:
-	option = st.selectbox('Select leaderboard from the dropdown menu', ('Female First Stage', 'Male First Stage', 'Female Semi-Final', 'Male Semi-Final'))
+	option = st.selectbox(
+		'Select leaderboard from the dropdown menu', ('Female First Stage', 'Male First Stage', 'Female Semi-Final', 'Male Semi-Final', 'Workout 1', 'Workout 2', 'Workout 3', 'Semifinal A', 'Semifinal B')
+	)
 else:
-	option = st.selectbox('Select leaderboard from the dropdown menu', ('Female First Stage', 'Male First Stage'))
+	option = st.selectbox(
+		'Select leaderboard from the dropdown menu', ('Female First Stage', 'Male First Stage', 'Workout 1', 'Workout 2', 'Workout 3', 'Semifinal A', 'Semifinal B')
+	)
 
 if option == 'Male First Stage':
 	sheet = 'ScoreM'
-	d, s, w = DoScoreBoard(file, sheet, False)
-	st.subheader("Leaderboard")
-	st.table(d.drop(columns=['WorstRound','BestRound']))
+	try:
+		d, s, w = DoScoreBoard(file, sheet, False)
+		st.subheader("Leaderboard")
+		st.table(d.drop(columns=['WorstRound','BestRound']).style.set_table_styles([headers]).set_properties(**text))
+	except:
+		df = pd.read_excel(file, index_col=0, sheet_name = sheet)
+		st.text(f'Scoreboard is not available yet')
+		st.table(df[['Team']].style.set_table_styles([headers]).set_properties(**text))
 elif option == 'Female First Stage':
-	sheet = 'ScoreF'
-	d, s, w = DoScoreBoard(file, sheet, False)
-	st.subheader("Leaderboard")
-	st.table(d.drop(columns=['WorstRound','BestRound']))
+	try:
+		sheet = 'ScoreF'
+		d, s, w = DoScoreBoard(file, sheet, False)
+		st.subheader("Leaderboard")
+		st.table(d.drop(columns=['WorstRound','BestRound']).style.set_table_styles([headers]).set_properties(**text))
+	except:
+		df = pd.read_excel(file, index_col=0, sheet_name = sheet)
+		st.text(f'Scoreboard is not available yet')
+		st.table(df[['Team']].style.set_table_styles([headers]).set_properties(**text))
+if option == 'Male Semi-Final':
+	sheet = 'SFM'
+	try:
+		d, s, w = DoScoreBoard(file, sheet, False)
+		st.subheader("Leaderboard")
+		st.table(d.drop(columns=['WorstRound','BestRound']).style.set_table_styles([headers]).set_properties(**text))
+	except:
+		df = pd.read_excel(file, index_col=0, sheet_name = sheet)
+		st.text(f'Scoreboard is not available yet')
+elif option == 'Female Semi-Final':
+	try:
+		sheet = 'SFF'
+		d, s, w = DoScoreBoard(file, sheet, False)
+		st.subheader("Leaderboard")
+		st.table(d.drop(columns=['WorstRound','BestRound']).style.set_table_styles([headers]).set_properties(**text))
+	except:
+		df = pd.read_excel(file, index_col=0, sheet_name = sheet)
+		st.text(f'Scoreboard is not available yet')
+elif option in ['Workout 1', 'Workout 2', 'Workout 3']:
+	nwod = re.search('[0-9]$', option).group(0)
+	try:
+		sheet = 'ScoreF'
+		d, s, w = DoScoreBoard(file, sheet, True)
+		w = w.sort_values(by=[f'points{nwod}'], ascending=False)
+		w['CurrentRank'] = w[f'points{nwod}'].rank(axis=0, method='min', ascending=False)
+		dis_w = w[['CurrentRank', f'WODdisplay{nwod}']]
+		dis_w.columns = ['Rank', option]
+		dis_w['Rank'] = dis_w['Rank'].astype(int)
+		st.subheader('Female Division ' + option)
+		st.table(dis_w.style.set_table_styles([headers]).set_properties(**text))
+	except:
+		st.text(f'Scoreboard for female division {option} is not available yet')
+	try:
+		sheet = 'ScoreM'
+		d, s, w = DoScoreBoard(file, sheet, True)
+		w = w.sort_values(by=[f'points{nwod}'], ascending=False)
+		w['CurrentRank'] = w[f'points{nwod}'].rank(axis=0, method='min', ascending=False)
+		dis_w = w[['CurrentRank', f'WODdisplay{nwod}']]
+		dis_w.columns = ['Rank', option]
+		dis_w['Rank'] = dis_w['Rank'].astype(int)
+		st.subheader('Male Division ' + option)
+		st.table(dis_w.style.set_table_styles([headers]).set_properties(**text))
+	except:
+		st.text(f'Scoreboard for male division {option} is not available yet')
+elif option in ['Semifinal A', 'Semifinal B']:
+	if option == 'Semifinal A':
+		nwod = 1
+	if option == 'Semifinal B':
+		nwod = 2
+	try:
+		sheet = 'SFF'
+		d, s, w = DoScoreBoard(file, sheet, False)
+		w = w.sort_values(by=[f'points{nwod}'], ascending=False)
+		w['CurrentRank'] = w[f'points{nwod}'].rank(axis=0, method='min', ascending=False)
+		dis_w = w[['CurrentRank', f'WODdisplay{nwod}']]
+		dis_w.columns = ['Rank', option]
+		dis_w['Rank'] = dis_w['Rank'].astype(int)
+		st.subheader('Female Division ' + option)
+		st.table(dis_w.style.set_table_styles([headers]).set_properties(**text))
+	except:
+		st.text(f'Scoreboard for female division {option} is not available yet')
+	try:
+		sheet = 'SFM'
+		d, s, w = DoScoreBoard(file, sheet, False)
+		w = w.sort_values(by=[f'points{nwod}'], ascending=False)
+		w['CurrentRank'] = w[f'points{nwod}'].rank(axis=0, method='min', ascending=False)
+		dis_w = w[['CurrentRank', f'WODdisplay{nwod}']]
+		dis_w.columns = ['Rank', option]
+		dis_w['Rank'] = dis_w['Rank'].astype(int)
+		st.subheader('Male Division ' + option)
+		st.table(dis_w.style.set_table_styles([headers]).set_properties(**text))
+	except:
+		st.text(f'Scoreboard for male division {option} is not available yet')
