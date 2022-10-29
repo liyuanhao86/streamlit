@@ -42,7 +42,7 @@ def DoScoreBoard(file, sheet, ifQF=False):
 		'Row':400,
 		'T2B':40,
 		'Row2':400,
-		'HSPU':20
+		'HSPU':40
 	}
 	wod[4] = {
 		'kg':1
