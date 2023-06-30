@@ -177,7 +177,6 @@ try:
 	score_matrix = pd.read_excel(file, index_col=0, sheet_name = 'ScoreMatrix').to_dict()
 	score_matrix['points'][0]=0
 	df = df.fillna(0)
-	if sheet in ['Score']:
 	for w in range(1,4):
 		df[f'WODdisplay{w}'] = ''
 		for team in df.index:
