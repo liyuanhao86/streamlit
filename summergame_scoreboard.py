@@ -146,13 +146,13 @@ wod[2] = {
 wod_type = {1:'FT',2:'Other',3:'FT'}
 wod_rd = {1:1,2:1,3:1}
 
-bg_pic = 'C:\\Users\\yhli1\\OneDrive - Mowi ASA\\work_files\\CrossFit\\2023 summer games\\summerwp.png'
+bg_pic = 'summerwp.png'
 
 add_bg_from_local(bg_pic)	
-image = Image.open('C:\\Users\\yhli1\\OneDrive - Mowi ASA\\work_files\\CrossFit\\2023 summer games\\CFBLogo.jpg')
-image2 = Image.open('C:\\Users\\yhli1\\OneDrive - Mowi ASA\\work_files\\CrossFit\\2023 summer games\\summer.png')
+image = Image.open('CFBLogo.jpg')
+#image2 = Image.open('summer.png')
 
-file = 'C:\\Users\\yhli1\\OneDrive - Mowi ASA\\work_files\\CrossFit\\2023 summer games\\scoreboard.xlsx'
+file = 'scoreboard.xlsx'
 
 headers = [{
 	'selector': 'th:not(.index_name)',
