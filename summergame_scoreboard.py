@@ -173,24 +173,24 @@ option = st.selectbox(
 )
 sheet = 'Score'
 try:
-		df = pd.read_excel(file, index_col=0, sheet_name = sheet).set_index(['Team'])
-		score_matrix = pd.read_excel(file, index_col=0, sheet_name = 'ScoreMatrix').to_dict()
-		score_matrix['points'][0]=0
-		df = df.fillna(0)
-		if sheet in ['Score']:
-		for w in range(1,4):
-			df[f'WODdisplay{w}'] = ''
-			for team in df.index:
-				m = df[f'Minute{w}'][team]
-				s = df[f'Second{w}'][team]
-				r = df[f'Rep{w}'][team]
-				df.loc[team,f'WODdisplay{w}']=get_wod_display(wod[w-1], m, s, r, wod_type[w], total_rd=wod_rd[w])
+	df = pd.read_excel(file, index_col=0, sheet_name = sheet).set_index(['Team'])
+	score_matrix = pd.read_excel(file, index_col=0, sheet_name = 'ScoreMatrix').to_dict()
+	score_matrix['points'][0]=0
+	df = df.fillna(0)
+	if sheet in ['Score']:
+	for w in range(1,4):
+		df[f'WODdisplay{w}'] = ''
 		for team in df.index:
-			s1 = df['WODdisplay3'][team]
-			m2 = df['Minute3a'][team]
-			s2 = df['Second3b'][team]
-			r2 = df['Rep3Row'][team]
-			df.loc[team,'WODdisplay3']= f'{s1} ({m2:02d}:{s2:02d} - {r2} cals)'
+			m = df[f'Minute{w}'][team]
+			s = df[f'Second{w}'][team]
+			r = df[f'Rep{w}'][team]
+			df.loc[team,f'WODdisplay{w}']=get_wod_display(wod[w-1], m, s, r, wod_type[w], total_rd=wod_rd[w])
+	for team in df.index:
+		s1 = df['WODdisplay3'][team]
+		m2 = df['Minute3a'][team]
+		s2 = df['Second3b'][team]
+		r2 = df['Rep3Row'][team]
+		df.loc[team,'WODdisplay3']= f'{s1} ({m2:02d}:{s2:02d} - {r2} cals)'
 except:
 	df = pd.read_excel(file, index_col=0, sheet_name = sheet)
 	st.text(f'Scoreboard is not available yet')
