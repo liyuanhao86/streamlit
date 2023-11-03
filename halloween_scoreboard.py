@@ -427,7 +427,7 @@ add_bg_from_local(bg_pic)
 image = Image.open('CFBLogo.jpg')
 image2 = Image.open('halloween.png')
 
-file = 'scoreboard.xlsx'
+file = 'Scoreboard.xlsx'
 
 headers = {
     "selector": "th:not(.index_name)",
