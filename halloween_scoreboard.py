@@ -439,7 +439,7 @@ text = {
 }
 
 #st.set_page_config(layout="wide")
-st.title("CrossFit Bryggen Halloween Games 2022")
+st.title("CrossFit Bryggen Halloween Games 2023")
 
 st.image(image,width=100)
 
