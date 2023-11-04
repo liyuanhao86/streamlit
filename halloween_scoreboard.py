@@ -443,7 +443,7 @@ st.title("CrossFit Bryggen Halloween Games 2023")
 
 st.image(image,width=100)
 
-ifSemiFinal = False
+ifSemiFinal = True
 ifFinal = False
 if ifSemiFinal and ifFinal:
 	option = st.selectbox(
