@@ -273,7 +273,7 @@ def DoScoreBoard(file, sheet, ifQF=False):
 					bjo = df['BJO'][team]
 					t2b = df['TTR'][team]
 					ski = df['Ski'][team]
-					df.loc[team,f'WODdisplay{w}'] = f'{wb} WB, {bjo} BJO, {t2b} T2R, {ski} Cals ski'
+					df.loc[team,f'WODdisplay{w}'] = f'{wb} WB, {bjo} BJO, {t2b} T2R, {ski} Cals row'
 			if w == 3:
 				for team in df.index:
 					m = int(df[f'Minute{w}'][team])
