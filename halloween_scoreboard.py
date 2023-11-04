@@ -54,7 +54,7 @@ def DoScoreBoardF(file, sheet, ifQF=False):
 				m = int(df[f'Minute{w}'][team])
 				s = int(df[f'Second{w}'][team])
 				r = int(df[f'Rep{w}'][team])
-				if r == 490:
+				if r == 480:
 					df.loc[team,f'WODdisplay{w}'] = f'{m:02d}:{s:02d}'
 				elif r<= 150:
 					tmp = r
