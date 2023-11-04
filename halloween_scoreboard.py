@@ -441,7 +441,7 @@ st.title("CrossFit Bryggen Halloween Games 2023")
 st.image(image,width=100)
 
 ifSemiFinal = True
-ifFinal = False
+ifFinal = True
 if ifSemiFinal and ifFinal:
 	option = st.selectbox(
 		'Select leaderboard from the dropdown menu', ('Female First Stage', 'Male First Stage', 'Female Semi-Final', 'Male Semi-Final', 'Female Final', 'Male Final', 'Workout 1', 'Workout 2', 'Workout 3')
