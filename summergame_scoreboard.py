@@ -135,16 +135,22 @@ def get_wod_display(wod, mm, ss, rep, tp, total_rd = 1):
 
 wod=[{},{},{},{},{}]
 wod[0] = {
-	'Wall balls': 300
+	'Cals': 1
 }
 wod[1] = {
-	'Reps':1
+	'Burpee Box Jump-overs':1
 }
 wod[2] = {
-	'Reps' : 1602
+	'Points' : 1
 }
-wod_type = {1:'FT',2:'Other',3:'FT'}
-wod_rd = {1:1,2:1,3:1}
+wod[3] = {
+	'Reps' : 1
+}
+wod[4] = {
+	'Laps' : 2
+}
+wod_type = {1:'Other',2:'Other',3:'Other',4:'Other',5:'FT'}
+wod_rd = {1:1,2:1,3:1,4:1,5:1}
 
 bg_pic = 'summerwp.png'
 
@@ -164,12 +170,12 @@ text = {
 }
 
 #st.set_page_config(layout="wide")
-st.title("CrossFit Bryggen Summer Games 2023")
+st.title("CrossFit Bryggen Summer Games 2024")
 
 st.image(image,width=100)
 
 option = st.selectbox(
-	'Select leaderboard from the dropdown menu', ('Leaderboard', 'Workout 1', 'Workout 2', 'Workout 3')
+	'Select leaderboard from the dropdown menu', ('Leaderboard', 'Workout 1', 'Workout 2', 'Workout 3', 'Workout 4', 'Workout 5')
 )
 sheet = 'Score'
 try:
@@ -177,7 +183,7 @@ try:
 	score_matrix = pd.read_excel(file, index_col=0, sheet_name = 'ScoreMatrix').to_dict()
 	score_matrix['points'][0]=0
 	df = df.fillna(0)
-	for w in range(1,4):
+	for w in range(1,6):
 		df[f'WODdisplay{w}'] = ''
 		for team in df.index:
 			m = df[f'Minute{w}'][team]
@@ -185,24 +191,28 @@ try:
 			r = df[f'Rep{w}'][team]
 			df.loc[team,f'WODdisplay{w}']=get_wod_display(wod[w-1], m, s, r, wod_type[w], total_rd=wod_rd[w])
 	for team in df.index:
-		s1 = df['WODdisplay3'][team]
-		m2 = df['Minute3a'][team]
-		s2 = df['Second3b'][team]
-		r2 = df['Rep3Row'][team]
-		df.loc[team,'WODdisplay3']= f'{s1} ({m2:02d}:{s2:02d} - {r2} cals)'
+		r1 = df['Rep4a'][team]
+		r2 = df['Rep4b'][team]
+		r3 = df['Rep4c'][team]
+		r4 = df['Rep4d'][team]
+		r5 = r1 + r2 + r3 + r4
+		df.loc[team,'WODdisplay4']= f'{r5} pts = {r1}kg press + {r2} pull-ups + {r3} sit-ups + {r4} double-unders'
 except:
-	pass
+	df = pd.read_excel(file, index_col=0, sheet_name = sheet)
+	st.text(f'Scoreboard is not available yet')
+	st.table(df[['Team']].style.set_table_styles(headers).set_properties(**text))
 if option == 'Leaderboard':
 	sheet = 'Score'
 	try:
 		d, s, w = DoScoreBoard(df, score_matrix, False)
 		st.subheader("Leaderboard")
 		st.table(d.drop(columns=['WorstRound','BestRound']).style.set_table_styles(headers).set_properties(**text))
-	except:
+	except Exception as e:
+		st.text(e)
 		df = pd.read_excel(file, index_col=0, sheet_name = sheet)
 		st.text(f'Scoreboard is not available yet')
 		st.table(df[['Team']].style.set_table_styles(headers).set_properties(**text))
-elif option in ['Workout 1', 'Workout 2', 'Workout 3']:
+elif option in ['Workout 1', 'Workout 2', 'Workout 3', 'Workout 4', 'Workout 5']:
 	nwod = re.search('[0-9]$', option).group(0)
 	try:
 		sheet = 'Score'
