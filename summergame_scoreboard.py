@@ -208,7 +208,6 @@ if option == 'Leaderboard':
 		st.subheader("Leaderboard")
 		st.table(d.drop(columns=['WorstRound','BestRound']).style.set_table_styles(headers).set_properties(**text))
 	except Exception as e:
-		st.text(e)
 		df = pd.read_excel(file, index_col=0, sheet_name = sheet)
 		st.text(f'Scoreboard is not available yet')
 		st.table(df[['Team']].style.set_table_styles(headers).set_properties(**text))
