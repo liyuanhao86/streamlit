@@ -195,8 +195,8 @@ try:
 		r2 = df['Rep4b'][team]
 		r3 = df['Rep4c'][team]
 		r4 = df['Rep4d'][team]
-		r5 = r1 + r2 + r3 + r4
-		df.loc[team,'WODdisplay4']= f'{r5} pts = {r1}kg press + {r2} pull-ups + {r3} sit-ups + {r4} double-unders'
+		r5 = r1 + r2*3 + r3 + r4
+		df.loc[team,'WODdisplay4']= f'{r5} pts = {r1}kg press + {r2} pull-ups x3 + {r3} sit-ups + {r4} double-unders'
 except:
 	df = pd.read_excel(file, index_col=0, sheet_name = sheet)
 	st.text(f'Scoreboard is not available yet')
