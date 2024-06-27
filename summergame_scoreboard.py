@@ -5,7 +5,7 @@ import math
 import streamlit as st
 from PIL import Image
 import base64
-
+st.set_page_config(layout="wide")
 def add_bg_from_local(image_file):
 	with open(image_file, "rb") as image_file:
 		encoded_string = base64.b64encode(image_file.read())
@@ -169,7 +169,7 @@ text = {
 	'background-color':'#82e0dc'
 }
 
-#st.set_page_config(layout="wide")
+
 st.title("CrossFit Bryggen Summer Games 2024")
 
 st.image(image,width=100)
