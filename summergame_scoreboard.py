@@ -5,7 +5,9 @@ import math
 import streamlit as st
 from PIL import Image
 import base64
+
 st.set_page_config(layout="wide")
+
 def add_bg_from_local(image_file):
 	with open(image_file, "rb") as image_file:
 		encoded_string = base64.b64encode(image_file.read())
@@ -135,22 +137,16 @@ def get_wod_display(wod, mm, ss, rep, tp, total_rd = 1):
 
 wod=[{},{},{},{},{}]
 wod[0] = {
-	'Cals': 1
+	'Reps': 1
 }
 wod[1] = {
-	'Burpee Box Jump-overs':1
+	'Points':1
 }
 wod[2] = {
-	'Points' : 1
+	'Cals' : 1
 }
-wod[3] = {
-	'Reps' : 1
-}
-wod[4] = {
-	'Laps' : 2
-}
-wod_type = {1:'Other',2:'Other',3:'Other',4:'Other',5:'FT'}
-wod_rd = {1:1,2:1,3:1,4:1,5:1}
+wod_type = {1:'Other',2:'Other',3:'Other'}
+wod_rd = {1:1,2:1,3:1}
 
 bg_pic = 'summerwp.png'
 
@@ -169,13 +165,12 @@ text = {
 	'background-color':'#82e0dc'
 }
 
-
-st.title("CrossFit Bryggen Summer Games 2024")
+st.title("CrossFit Bryggen Summer Games 2025")
 
 st.image(image,width=100)
 
 option = st.selectbox(
-	'Select leaderboard from the dropdown menu', ('Leaderboard', 'Workout 1', 'Workout 2', 'Workout 3', 'Workout 4', 'Workout 5')
+	'Select leaderboard from the dropdown menu', ('Leaderboard', 'Workout 1', 'Workout 2', 'Workout 3')
 )
 sheet = 'Score'
 try:
@@ -183,20 +178,19 @@ try:
 	score_matrix = pd.read_excel(file, index_col=0, sheet_name = 'ScoreMatrix').to_dict()
 	score_matrix['points'][0]=0
 	df = df.fillna(0)
-	for w in range(1,6):
-		df[f'WODdisplay{w}'] = ''
-		for team in df.index:
-			m = df[f'Minute{w}'][team]
-			s = df[f'Second{w}'][team]
-			r = df[f'Rep{w}'][team]
-			df.loc[team,f'WODdisplay{w}']=get_wod_display(wod[w-1], m, s, r, wod_type[w], total_rd=wod_rd[w])
 	for team in df.index:
-		r1 = df['Rep4a'][team]
-		r2 = df['Rep4b'][team]
-		r3 = df['Rep4c'][team]
-		r4 = df['Rep4d'][team]
-		r5 = r1 + r2*3 + r3 + r4
-		df.loc[team,'WODdisplay4']= f'{r5} pts = {r1}kg press + {r2} pull-ups x3 + {r3} sit-ups + {r4} double-unders'
+		r1 = df['Row1'][team]
+		r2 = df['DP1'][team]
+		r3 = r1 + r2
+		df.loc[team,'WODdisplay1']= f'{r3} reps = {r1} cals row + {r2} Devil Presses'
+	for team in df.index:
+		r1 = df['Bench2'][team]
+		r2 = df['Paddle2'][team]
+		r3 = r1 + r2 * 10
+		df.loc[team,'WODdisplay2']= f'{r3} pts = {r1} kg bench + {r2} beach paddles x10'
+	for team in df.index:
+		r1 = df['Rep3'][team]
+		df.loc[team,'WODdisplay3']= f'{r1} cals'
 except:
 	df = pd.read_excel(file, index_col=0, sheet_name = sheet)
 	st.text(f'Scoreboard is not available yet')
@@ -208,10 +202,11 @@ if option == 'Leaderboard':
 		st.subheader("Leaderboard")
 		st.table(d.drop(columns=['WorstRound','BestRound']).style.set_table_styles(headers).set_properties(**text))
 	except Exception as e:
+		st.text(e)
 		df = pd.read_excel(file, index_col=0, sheet_name = sheet)
 		st.text(f'Scoreboard is not available yet')
 		st.table(df[['Team']].style.set_table_styles(headers).set_properties(**text))
-elif option in ['Workout 1', 'Workout 2', 'Workout 3', 'Workout 4', 'Workout 5']:
+elif option in ['Workout 1', 'Workout 2', 'Workout 3']:
 	nwod = re.search('[0-9]$', option).group(0)
 	try:
 		sheet = 'Score'
