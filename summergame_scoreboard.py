@@ -175,6 +175,7 @@ except FileNotFoundError:
     st.table(
         teams
           .style
+          .hide_index()
           .set_table_styles(headers)
           .set_properties(**text)
     )
@@ -203,6 +204,7 @@ if option == 'Leaderboard':
         st.table(
             teams
               .style
+              .hide_index()
               .set_table_styles(headers)
               .set_properties(**text)
         )
