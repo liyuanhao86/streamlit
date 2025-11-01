@@ -229,7 +229,7 @@ elif option in ['Workout 1 Male', 'Workout 2a Male', 'Workout 2b Male', 'Workout
 			df.loc[team,'WODdisplay2']= f'{r3} kg = {r1} kg + {r2} kg'
 		for team in df.index:
 			r1 = df['Rep3'][team]
-			df.loc[team,'WODdisplay3']= f'{r1} burpees'
+			df.loc[team,'WODdisplay3']= f'{r1} reps'
 		for team in df.index:
 			r1 = df['Rep4'][team]
 			if (r1 == 1880 and sheet == 'ScoreM' ) or (r1 == 1580 and sheet == 'ScoreF'):
@@ -253,4 +253,5 @@ elif option in ['Workout 1 Male', 'Workout 2a Male', 'Workout 2b Male', 'Workout
 		st.subheader(option)
 		st.table(dis_w.style.set_table_styles(headers).set_properties(**text))
 	except:
+
 		st.text(f'Scoreboard for {option} is not available yet')
